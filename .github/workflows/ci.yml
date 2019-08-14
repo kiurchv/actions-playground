@@ -8,13 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Filter pushes with commits
-        if: github.event.commits.length == 0
-        run: exit 1
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
+      - run: echo ${{toJson(github.event.commits.length)}}
+      - name: Filter pushes with commits
+        if: github.event.commits.length == 0
+        run: exit 1
       - name: Dump strategy context
         env:
           STRATEGY_CONTEXT: ${{ toJson(strategy) }}
